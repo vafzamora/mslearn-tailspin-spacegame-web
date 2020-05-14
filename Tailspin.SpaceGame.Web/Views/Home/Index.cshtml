@@ -1,6 +1,7 @@
 ﻿@model TailSpin.SpaceGame.Web.Models.LeaderboardViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration config
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = config["Title"];
 }
 <section class="intro">
     <div class="container">
