@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  artifactStagingDirectory: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
@@ -21,7 +22,7 @@ steps:
     command: 'publish'
     projects: '**/*.csproj'
     publishWebProjects: false
-    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(artifactStagingDirectory)'
     zipAfterPublish: true
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
@@ -31,4 +32,15 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
+- task: DockerInstaller@0
+  displayName: 'Install Docker CLI'
+  inputs:
+    dockerVersion: '17.09.0-ce'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub'
+    repository: 'labs'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '$(artifactStagingDirectory)'
