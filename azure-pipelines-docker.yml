@@ -23,7 +23,7 @@ steps:
     projects: '**/*.csproj'
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(artifactStagingDirectory)'
-    zipAfterPublish: true
+    zipAfterPublish: false
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
@@ -43,4 +43,4 @@ steps:
     repository: 'vafzamora/labs'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    buildContext: '$(artifactStagingDirectory)'
+    buildContext: '$(artifactStagingDirectory)/Tailspin.SpaceGame.Web/'
