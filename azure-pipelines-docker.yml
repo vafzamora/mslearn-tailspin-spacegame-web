@@ -35,7 +35,7 @@ steps:
 - task: DockerInstaller@0
   displayName: 'Install Docker CLI'
   inputs:
-    dockerVersion: '17.09.0-ce'
+    dockerVersion: '19.03.8-ce'
 
 - task: Docker@2
   inputs:
