@@ -13,10 +13,10 @@ variables:
   buildConfiguration: 'Release'
   artifactStagingDirectory: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
 
--stage: 'Build' 
+- stage: 'Build' 
  displayName: 'Build stage'
  jobs:
- -job: 'Build'
+ - job: 'Build'
   steps:
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
