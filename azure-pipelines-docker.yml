@@ -14,32 +14,32 @@ variables:
   artifactStagingDirectory: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
 
 - stage: 'Build' 
- displayName: 'Build stage'
- jobs:
- - job: 'Build'
-  steps:
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: 'dotnet build $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: 'Publish the project - $(buildConfiguration)'
-    inputs:
-      command: 'publish'
-      projects: '**/*.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(artifactStagingDirectory)'
-      zipAfterPublish: false
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
-    condition: succeeded()
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'vzHub ACR'
-      repository: 'vafzamora/labs'
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
-      buildContext: '$(artifactStagingDirectory)/Tailspin.SpaceGame.Web/'
+  displayName: 'Build stage'
+  jobs:
+  - job: 'Build'
+    steps:
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'dotnet build $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(artifactStagingDirectory)'
+        zipAfterPublish: false
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'vzHub ACR'
+        repository: 'vafzamora/labs'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '$(artifactStagingDirectory)/Tailspin.SpaceGame.Web/'
 
