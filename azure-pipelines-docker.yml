@@ -13,6 +13,7 @@ variables:
   buildConfiguration: 'Release'
   artifactStagingDirectory: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
 
+stages:
 - stage: 'Build' 
   displayName: 'Build stage'
   jobs:
